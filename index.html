@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Responsive Registration Form | CodingLab </title>
+    <link rel="stylesheet" href="style.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="container">
+    <div class="title">Registration</div>
+    <div class="content">
+      <form action="#" id = "myForm">
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Full Name</span>
+            <input type="text" placeholder="Enter your name" id='nameField'  required>
+          </div>
+          <div class="input-box">
+            <span class="details">Username</span>
+            <input type="text" placeholder="Enter your username" name  = 'userName' id = 'usernameField' required>
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="text" placeholder="Enter your email" name = 'email' id="emailField" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input type="text" placeholder="Enter your number" name = 'phoneNumber' id = 'phoneNumField' required>
+          </div>
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="text" placeholder="Enter your password" name = 'password' id= 'passwordField' required>
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="text" placeholder="Confirm your password" id = "confirmPass"required>
+          </div>
+
+        </div>
+        <div class="gender-details">
+          <input type="radio" name="gender" id="dot-1" value = 'Male'>
+          <input type="radio" name="gender" id="dot-2" value = 'female'>
+          <input type="radio" name="gender" id="dot-3" value = 'not prefer'>
+          <span class="gender-title">Gender</span>
+          <div class="category">
+            <label for="dot-1">
+            <span class="dot one"></span>
+            <span class="gender">Male</span>
+          </label>
+          <label for="dot-2">
+            <span class="dot two"></span>
+            <span class="gender">Female</span>
+          </label>
+          <label for="dot-3">
+            <span class="dot three"></span>
+            <span class="gender">Prefer not to say</span>
+            </label>
+          </div>
+        </div>
+        <div class = "button">
+          <input type="submit" value="Register">
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+
+const name = document.getElementById('nameField').value;
+const btn = document.getElementById('submitBtn');          
+
+document.getElementById('myForm').addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const name = document.getElementById('nameField').value;
+            const username = document.getElementById('usernameField').value;
+            const  email= document.getElementById('emailField').value;
+            const phone = document.getElementById('phoneNumField').value;
+            const password = document.getElementById('passwordField').value;
+            let gender ;
+            
+            
+            //findinng the value of selected radio button
+            for(item of document.getElementsByName('gender') ){
+              if(item.checked){
+                gender=item.value;
+              break;
+             }
+          }
+
+            //prepariong object to send to the server 
+            const data = { name , username,email,phone,password,gender};
+            console.log(data);
+
+            fetch('http://localhost:3000/employee/insert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Data sent successfully:', result);
+            })
+            .catch(error => {
+                console.error('Error sending data:', error);
+            });
+        
+              document.getElementById('nameField').value="";
+              document.getElementById('usernameField').value="";
+               document.getElementById('emailField').value="";
+           document.getElementById('phoneNumField').value="";
+            document.getElementById('passwordField').value="";
+            document.getElementById('confirmPass').value="";
+            document.getElementById('dot-1').checked=false;
+            document.getElementById('dot-2').checked=false;
+            document.getElementById('dot-3').checked=false;
+          
+          });
+
+</script>
+
+
+</body>
+</html>
